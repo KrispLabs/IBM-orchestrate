@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
-class AiEngineConfig(AppConfig):
+class InsightsConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'apps.ai_engine'
+    name = 'apps.insights'
 
 # Made with Bob
