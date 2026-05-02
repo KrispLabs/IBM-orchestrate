@@ -26,6 +26,7 @@ networkx
 pytest
 pytest-django
 coverage
+pytest-cov
 
 # Utilities
 python-dotenv
