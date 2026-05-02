@@ -1,18 +1,31 @@
+# Core Django
 django
 djangorestframework
-django-cors-headers
+
+# Database
+psycopg2-binary>=2.9.9
+
+# API & Auth
+PyGithub
+python-jose[cryptography]
+requests
 python-decouple
-psycopg2-binary
+djangorestframework-simplejwt
+django-cors-headers
+
+# Task Queue
 celery
 redis
+
+# AI & Analysis (simplified)
 ibm-watsonx-ai
-PyGithub
 astpretty
 networkx
-python-jose
-requests
-factory-boy
+
+# Testing (simplified)
 pytest
 pytest-django
-pytest-playwright
 coverage
+
+# Utilities
+python-dotenv
