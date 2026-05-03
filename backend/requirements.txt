@@ -1,5 +1,6 @@
 # Core Django
 django
+gunicorn
 djangorestframework
 
 # Database
