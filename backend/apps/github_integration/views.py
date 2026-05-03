@@ -32,13 +32,49 @@ def github_webhook(request):
             repo_url=repo_url,
             defaults={'repo_name': repo_name, 'github_token': ''}
         )
-        WebhookEvent.objects.create(
+        webhook_event = WebhookEvent.objects.create(
             repo=repo,
             event_type=event_type,
             payload=payload
         )
+        
+        # Trigger async processing
+        from apps.ai_engine.tasks import process_webhook_event
+        process_webhook_event.delay(webhook_event.id)
 
     return JsonResponse({'status': 'received', 'event': event_type})
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def list_repos(request):
+    """List all connected GitHub repositories"""
+    repos = GitHubRepo.objects.all()
+    data = []
+    for repo in repos:
+        data.append({
+            'id': repo.id,
+            'repo_name': repo.repo_name,
+            'repo_url': repo.repo_url,
+            'created_at': repo.created_at.isoformat(),
+        })
+    return Response(data)
+
+
+@api_view(['GET'])
+@permission_classes([AllowAny])
+def get_repo(request, repo_id):
+    """Get details of a specific repository"""
+    try:
+        repo = GitHubRepo.objects.get(id=repo_id)
+        return Response({
+            'id': repo.id,
+            'repo_name': repo.repo_name,
+            'repo_url': repo.repo_url,
+            'created_at': repo.created_at.isoformat(),
+        })
+    except GitHubRepo.DoesNotExist:
+        return Response({'error': 'Repository not found'}, status=404)
 
 
 @api_view(['GET'])

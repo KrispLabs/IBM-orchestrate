@@ -5,6 +5,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/github/', include('apps.github_integration.urls')),
     path('api/ai/', include('apps.ai_engine.urls')),
+    path('api/insights/', include('apps.insights.urls')),
 ]
 
 # Made with Bob

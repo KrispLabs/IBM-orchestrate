@@ -1,0 +1,151 @@
+
+<style>
+  .phase-grid { padding: 16px 0; font-family: var(--font-sans); }
+  .phase-row { margin-bottom: 12px; }
+  .phase-header { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .phase-num { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); min-width: 60px; }
+  .phase-title { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .phase-badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; font-weight: 500; }
+  .b-setup { background: var(--color-background-info); color: var(--color-text-info); }
+  .b-backend { background: var(--color-background-warning); color: var(--color-text-warning); }
+  .b-ai { background: #EAF3DE; color: #3B6D11; }
+  .b-fe { background: #EEEDFE; color: #3C3489; }
+  .b-cicd { background: #FAECE7; color: #993C1D; }
+  .b-final { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  @media (prefers-color-scheme: dark) {
+    .b-ai { background: #27500A; color: #C0DD97; }
+    .b-fe { background: #26215C; color: #CECBF6; }
+    .b-cicd { background: #4A1B0C; color: #F5C4B3; }
+  }
+  .cards { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .card { border-radius: 8px; padding: 8px 10px; border: 0.5px solid var(--color-border-tertiary); background: var(--color-background-secondary); }
+  .card-person { font-size: 10px; font-weight: 500; color: var(--color-text-secondary); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .card-tasks { font-size: 11px; color: var(--color-text-primary); line-height: 1.6; }
+  .card-tasks li { list-style: none; padding: 0; }
+  .card-tasks li::before { content: "·  "; color: var(--color-text-tertiary); }
+  .person-legend { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .person-pill { font-size: 11px; padding: 3px 10px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); color: var(--color-text-secondary); }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 14px 0; }
+  .dep-note { font-size: 11px; color: var(--color-text-tertiary); margin-top: 4px; padding-left: 70px; }
+</style>
+<div class="phase-grid">
+  <div class="person-legend">
+    <span class="person-pill">P1 — Frontend/Design</span>
+    <span class="person-pill">P2 — App Logic/Code</span>
+    <span class="person-pill">P3 — API & Auth</span>
+    <span class="person-pill">P4 — Deployments</span>
+    <span class="person-pill">P5 — Testing</span>
+  </div>
+
+  <!-- Phase 1 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 1</span>
+      <span class="phase-title">Project Setup & Dependencies</span>
+      <span class="phase-badge b-setup">All 5 people in parallel</span>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>React app init (Vite)</li><li>Tailwind CSS setup</li><li>Folder structure</li><li>React Router setup</li></ul></div>
+      <div class="card"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>Django project init</li><li>DB models design</li><li>Install langchain + AST libs</li><li>Virtual env setup</li></ul></div>
+      <div class="card"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>GitHub App registration</li><li>IBM WatsonX API keys</li><li>DRF install + config</li><li>.env / secrets setup</li></ul></div>
+      <div class="card"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>Dockerfile (Django)</li><li>docker-compose.yml</li><li>GitHub Actions skeleton</li><li>IBM Cloud CLI setup</li></ul></div>
+      <div class="card"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>pytest + coverage setup</li><li>Test folder structure</li><li>CI test pipeline stub</li><li>Sample test cases</li></ul></div>
+    </div>
+    <div class="dep-note">No dependencies — everyone starts here.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Phase 2 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 2</span>
+      <span class="phase-title">Core Backend + GitHub Integration</span>
+      <span class="phase-badge b-backend">P2, P3, P4</span>
+    </div>
+    <div class="cards">
+      <div class="card" style="opacity:.4"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>Wire up API base URL</li><li>Placeholder components</li><li>Loading states</li></ul></div>
+      <div class="card"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>Django models (CodeFile, TestFile, ChangeEvent)</li><li>ORM migrations</li><li>REST API skeleton (views + serializers)</li></ul></div>
+      <div class="card"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>GitHub OAuth login</li><li>Webhook receiver endpoint</li><li>Push event parsing</li><li>JWT auth middleware</li></ul></div>
+      <div class="card"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>Docker Compose with Postgres</li><li>Dev + prod env configs</li><li>GitHub Actions: lint + migrate</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>Unit tests for models</li><li>Webhook endpoint tests</li></ul></div>
+    </div>
+    <div class="dep-note">Needs Phase 1 complete. P1 + P5 have lighter load here — use time to deepen Phase 3 prep.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Phase 3 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 3</span>
+      <span class="phase-title">AI Engine — IBM WatsonX Integration</span>
+      <span class="phase-badge b-ai">P2, P3 (heavy)</span>
+    </div>
+    <div class="cards">
+      <div class="card" style="opacity:.4"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>Test file viewer component</li><li>Code diff display</li><li>Connect to test-gen API</li></ul></div>
+      <div class="card"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>AST parser for change detection</li><li>Impact analysis logic</li><li>Prompt templates for IBM Bob</li><li>Test generation service</li><li>Scenario simulation engine</li></ul></div>
+      <div class="card"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>IBM WatsonX API wrapper</li><li>/generate-tests endpoint</li><li>Rate limiting + error handling</li><li>IBM auth token refresh</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>Env vars for IBM keys</li><li>Health check endpoints</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>Test IBM Bob responses</li><li>Mock WatsonX for unit tests</li></ul></div>
+    </div>
+    <div class="dep-note">Needs GitHub webhook (Phase 2) working. This is the core of the project — allocate most dev time here.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Phase 4 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 4</span>
+      <span class="phase-title">Frontend Dashboard + Dev Insights</span>
+      <span class="phase-badge b-fe">P1 (heavy), P2, P3</span>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>Dashboard home (test health)</li><li>Code change timeline</li><li>Generated test viewer</li><li>Productivity + pain point charts</li><li>GitHub repo selector</li></ul></div>
+      <div class="card"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>Dev Insights data aggregation</li><li>Metrics API endpoints</li><li>Learning engine (self-improving)</li></ul></div>
+      <div class="card"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>Auth-protected routes</li><li>User session handling</li><li>CORS setup for React</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>Nginx reverse proxy for frontend</li><li>Static file serving</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>Cypress/Playwright E2E tests</li><li>API integration tests</li></ul></div>
+    </div>
+    <div class="dep-note">Can run in parallel with Phase 3. P1 can use mock data until Phase 3 APIs are ready.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Phase 5 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 5</span>
+      <span class="phase-title">CI/CD Pipeline + Quality Gate</span>
+      <span class="phase-badge b-cicd">P4 (heavy), P5 (heavy)</span>
+    </div>
+    <div class="cards">
+      <div class="card" style="opacity:.4"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>Pipeline status widget</li><li>Quality gate badge UI</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>Auto-fix patch logic</li><li>Knowledge graph write layer</li></ul></div>
+      <div class="card" style="opacity:.4"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>Status webhook callbacks</li><li>GitHub Checks API integration</li></ul></div>
+      <div class="card"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>Full GitHub Actions workflow</li><li>Quality gate pass/fail logic</li><li>IBM Cloud deployment pipeline</li><li>Container registry push</li></ul></div>
+      <div class="card"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>Auto Fix Engine integration</li><li>Quality gate threshold tests</li><li>Full regression suite</li><li>Coverage reporting</li></ul></div>
+    </div>
+    <div class="dep-note">Needs Phase 3 (AI engine) + Phase 4 (frontend) substantially complete before full pipeline testing.</div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- Phase 6 -->
+  <div class="phase-row">
+    <div class="phase-header">
+      <span class="phase-num">Phase 6</span>
+      <span class="phase-title">Knowledge Graph + Final Integration</span>
+      <span class="phase-badge b-final">All 5 — converge</span>
+    </div>
+    <div class="cards">
+      <div class="card"><div class="card-person">P1 · Frontend</div><ul class="card-tasks"><li>Polish UI & edge cases</li><li>Demo flow walkthrough</li><li>Error state handling</li></ul></div>
+      <div class="card"><div class="card-person">P2 · App Logic</div><ul class="card-tasks"><li>Knowledge graph (code + tests + bugs + history)</li><li>Self-improving feedback loop</li></ul></div>
+      <div class="card"><div class="card-person">P3 · API & Auth</div><ul class="card-tasks"><li>API hardening</li><li>Auth edge case fixes</li><li>Rate limit tuning</li></ul></div>
+      <div class="card"><div class="card-person">P4 · Deployments</div><ul class="card-tasks"><li>IBM Cloud live deploy</li><li>Staging env smoke test</li><li>Monitoring setup</li></ul></div>
+      <div class="card"><div class="card-person">P5 · Testing</div><ul class="card-tasks"><li>End-to-end demo rehearsal</li><li>Bug triage + fixes</li><li>Final QA sign-off</li></ul></div>
+    </div>
+    <div class="dep-note">All phases must be substantially working before this. Knowledge graph is non-critical for demo — cut it if time is short.</div>
+  </div>
+</div>
