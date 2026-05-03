@@ -46,7 +46,7 @@ jobs:
           IBM_WATSONX_API_KEY: ${{ secrets.IBM_WATSONX_API_KEY }}
           IBM_WATSONX_PROJECT_ID: ${{ secrets.IBM_WATSONX_PROJECT_ID }}
           IBM_WATSONX_URL: ${{ secrets.IBM_WATSONX_URL }}
-          GITHUB_WEBHOOK_SECRET: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
+          GITHUB_WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
         run: cd backend && python manage.py migrate
       - name: Run tests
         env:
@@ -61,7 +61,7 @@ jobs:
           IBM_WATSONX_API_KEY: ${{ secrets.IBM_WATSONX_API_KEY }}
           IBM_WATSONX_PROJECT_ID: ${{ secrets.IBM_WATSONX_PROJECT_ID }}
           IBM_WATSONX_URL: ${{ secrets.IBM_WATSONX_URL }}
-          GITHUB_WEBHOOK_SECRET: ${{ secrets.GITHUB_WEBHOOK_SECRET }}
+          GITHUB_WEBHOOK_SECRET: ${{ secrets.WEBHOOK_SECRET }}
         run: cd backend && pytest tests/ --cov=apps --cov-report=term-missing
 
   frontend-build:
