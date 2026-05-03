@@ -3,6 +3,7 @@ from rest_framework.permissions import AllowAny
 from rest_framework.response import Response
 from rest_framework import status
 from django.db.models import Count, Avg, Sum
+from django.db.models.functions import TruncDate
 from django.utils import timezone
 from datetime import timedelta
 from .models import TestOutcome, DevInsight, PainPoint
@@ -109,26 +110,29 @@ def get_timeline(request, repo_id):
 @permission_classes([AllowAny])
 def get_productivity_stats(request):
     """Get productivity statistics across all repos"""
-    # Get last 30 days of insights
     thirty_days_ago = timezone.now().date() - timedelta(days=30)
-    insights = DevInsight.objects.filter(date__gte=thirty_days_ago).order_by('date')
-    
-    # Aggregate timeline data
-    timeline = []
-    for insight in insights:
-        timeline.append({
-            'date': insight.date.strftime('%Y-%m-%d'),
-            'tests': insight.tests_generated,
-            'coverage': insight.code_coverage,
-        })
-    
-    # Get pain points
+
+    # Aggregate directly from TestFile creation dates (DevInsight requires Beat scheduler)
+    timeline_qs = (
+        TestFile.objects
+        .filter(created_at__date__gte=thirty_days_ago)
+        .annotate(date=TruncDate('created_at'))
+        .values('date')
+        .annotate(tests=Count('id'))
+        .order_by('date')
+    )
+
+    timeline = [
+        {'date': row['date'].strftime('%Y-%m-%d'), 'tests': row['tests']}
+        for row in timeline_qs
+    ]
+
     pain_points = PainPoint.objects.filter(resolved=False).order_by('-occurrence_count')[:10]
-    
+
     return Response({
         'timeline': timeline,
         'pain_points': PainPointSerializer(pain_points, many=True).data,
-        'total_tests_generated': insights.aggregate(Sum('tests_generated'))['tests_generated__sum'] or 0,
+        'total_tests_generated': TestFile.objects.count(),
     })
 
 

@@ -26,6 +26,15 @@ services:
       - "8000:8000"
     env_file:
       - ./backend/.env
+    # Shell env vars (e.g. GitHub Actions secrets) override .env values below
+    environment:
+      - IBM_WATSONX_API_KEY=${IBM_WATSONX_API_KEY:-}
+      - IBM_WATSONX_PROJECT_ID=${IBM_WATSONX_PROJECT_ID:-}
+      - IBM_WATSONX_URL=${IBM_WATSONX_URL:-https://us-south.ml.cloud.ibm.com}
+      - WATSONX_STATUS=${WATSONX_STATUS:-mocked}
+      - SECRET_KEY=${SECRET_KEY:-}
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
     depends_on:
       - db
       - redis
@@ -39,6 +48,14 @@ services:
       - ./backend:/app
     env_file:
       - ./backend/.env
+    environment:
+      - IBM_WATSONX_API_KEY=${IBM_WATSONX_API_KEY:-}
+      - IBM_WATSONX_PROJECT_ID=${IBM_WATSONX_PROJECT_ID:-}
+      - IBM_WATSONX_URL=${IBM_WATSONX_URL:-https://us-south.ml.cloud.ibm.com}
+      - WATSONX_STATUS=${WATSONX_STATUS:-mocked}
+      - SECRET_KEY=${SECRET_KEY:-}
+      - GITHUB_WEBHOOK_SECRET=${GITHUB_WEBHOOK_SECRET:-}
+      - DB_PASSWORD=${DB_PASSWORD:-postgres}
     depends_on:
       - db
       - redis

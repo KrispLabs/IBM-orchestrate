@@ -1,10 +1,24 @@
 from django.db import models
 
 class GitHubRepo(models.Model):
+    SCAN_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('scanning', 'Scanning'),
+        ('completed', 'Completed'),
+        ('failed', 'Failed'),
+    ]
+
     repo_name = models.CharField(max_length=255)
-    repo_url = models.URLField()
-    github_token = models.TextField()
+    repo_url = models.URLField(blank=True)
+    github_token = models.TextField(blank=True)
     webhook_secret = models.TextField(blank=True)
+    is_active = models.BooleanField(default=True)
+    last_scanned_at = models.DateTimeField(null=True, blank=True)
+    scan_status = models.CharField(
+        max_length=20,
+        choices=SCAN_STATUS_CHOICES,
+        default='pending',
+    )
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

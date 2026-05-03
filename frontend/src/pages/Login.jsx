@@ -4,7 +4,7 @@ import { useAuthStore } from '../store/authStore'
 import { authAPI } from '../services/api'
 
 export default function Login() {
-  const [email, setEmail] = useState('')
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
@@ -17,9 +17,9 @@ export default function Login() {
     setLoading(true)
 
     try {
-      const response = await authAPI.login({ email, password })
-      const { access, refresh, user } = response.data
-      setAuth(access, refresh, user)
+      const response = await authAPI.login({ username, password })
+      const { tokens, user } = response.data
+      setAuth(tokens.access, tokens.refresh, user)
       navigate('/')
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please try again.')
@@ -29,14 +29,14 @@ export default function Login() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gray-50 dark:bg-slate-900 flex items-center justify-center px-4">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
           <div className="mx-auto w-16 h-16 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-            <span className="text-white font-bold text-2xl">IB</span>
+            <span className="text-white font-bold text-2xl">ZT</span>
           </div>
-          <h2 className="text-3xl font-bold text-white">IBM Orchestrate</h2>
-          <p className="mt-2 text-slate-400">Sign in to your account</p>
+          <h2 className="text-3xl font-bold text-gray-900 dark:text-white">Zero Touch</h2>
+          <p className="mt-2 text-gray-500 dark:text-slate-400">Sign in to your account</p>
         </div>
 
         <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
@@ -48,23 +48,23 @@ export default function Login() {
 
           <div className="space-y-4">
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-slate-400 mb-2">
-                Email address
+              <label htmlFor="username" className="block text-sm font-medium text-gray-600 dark:text-slate-400 mb-2">
+                Username
               </label>
               <input
-                id="email"
-                name="email"
-                type="email"
+                id="username"
+                name="username"
+                type="text"
                 required
                 className="input w-full"
-                placeholder="you@example.com"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                placeholder="your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
               />
             </div>
 
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-slate-400 mb-2">
+              <label htmlFor="password" className="block text-sm font-medium text-gray-600 dark:text-slate-400 mb-2">
                 Password
               </label>
               <input
@@ -89,8 +89,8 @@ export default function Login() {
           </button>
 
           <div className="text-center">
-            <p className="text-slate-400 text-sm">
-              Demo credentials: admin@example.com / admin123
+            <p className="text-gray-500 dark:text-slate-400 text-sm">
+              Demo credentials: admin / admin123
             </p>
           </div>
         </form>

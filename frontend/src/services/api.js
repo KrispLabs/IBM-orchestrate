@@ -44,9 +44,17 @@ export const authAPI = {
 export const githubAPI = {
   listRepos: () => api.get('/github/repos/'),
   getRepo: (repoId) => api.get(`/github/repos/${repoId}/`),
-  connectRepo: (repoData) => api.post('/github/repos/', repoData),
-  disconnectRepo: (repoId) => api.delete(`/github/repos/${repoId}/`),
+  connectRepo: (repoData) => api.post('/github/repos/connect/', repoData),
+  disconnectRepo: (repoId) => api.delete(`/github/repos/${repoId}/disconnect/`),
   getWebhookEvents: (repoId) => api.get(`/github/repos/${repoId}/events/`),
+  getRepoStatus: (repoId) => api.get(`/github/repos/${repoId}/status/`),
+  rescanRepo: (repoId) => api.post(`/github/repos/${repoId}/rescan/`),
+  rescanAll: () => api.post('/github/repos/rescan-all/'),
+}
+
+// AI repo overview
+export const repoOverviewAPI = {
+  getOverview: (repoId) => api.get(`/ai/repo-overview/${repoId}/`),
 }
 
 // AI Engine API

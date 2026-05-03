@@ -1,10 +1,12 @@
 import { useQuery } from '@tanstack/react-query'
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from 'recharts'
-import { CheckCircle, XCircle, Clock, TrendingUp, GitBranch, FileCode } from 'lucide-react'
+import { CheckCircle, TrendingUp, GitBranch, FileCode } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import Layout from '../components/Layout'
 import { insightsAPI, githubAPI } from '../services/api'
 
 export default function Dashboard() {
+  const navigate = useNavigate()
   const { data: metrics, isLoading: metricsLoading } = useQuery({
     queryKey: ['metrics'],
     queryFn: () => insightsAPI.getMetrics().then(res => res.data),
@@ -61,13 +63,19 @@ export default function Dashboard() {
     },
   ]
 
+  const isDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark')
+  const chartGrid = isDark ? '#334155' : '#e5e7eb'
+  const chartAxis = isDark ? '#94a3b8' : '#6b7280'
+  const chartTooltipBg = isDark ? '#1e293b' : '#ffffff'
+  const chartTooltipBorder = isDark ? '#334155' : '#e5e7eb'
+
   return (
     <Layout>
       <div className="space-y-6">
         {/* Header */}
         <div>
-          <h1 className="text-3xl font-bold text-white">Dashboard</h1>
-          <p className="text-slate-400 mt-1">Monitor your automated test generation</p>
+          <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Dashboard</h1>
+          <p className="text-gray-500 dark:text-slate-400 mt-1">Monitor your automated test generation</p>
         </div>
 
         {/* Stats Grid */}
@@ -78,8 +86,8 @@ export default function Dashboard() {
               <div key={stat.label} className="card">
                 <div className="flex items-center justify-between">
                   <div>
-                    <p className="text-slate-400 text-sm">{stat.label}</p>
-                    <p className="text-3xl font-bold text-white mt-2">{stat.value}</p>
+                    <p className="text-gray-500 dark:text-slate-400 text-sm">{stat.label}</p>
+                    <p className="text-3xl font-bold text-gray-900 dark:text-white mt-2">{stat.value}</p>
                   </div>
                   <div className={`${stat.bgColor} p-3 rounded-lg`}>
                     <Icon className={stat.color} size={24} />
@@ -94,15 +102,15 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Test Generation Timeline */}
           <div className="card">
-            <h3 className="text-lg font-semibold text-white mb-4">Test Generation Timeline</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Test Generation Timeline</h3>
             <ResponsiveContainer width="100%" height={250}>
               <LineChart data={productivity?.timeline || []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="date" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid} />
+                <XAxis dataKey="date" stroke={chartAxis} />
+                <YAxis stroke={chartAxis} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155' }}
-                  labelStyle={{ color: '#94a3b8' }}
+                  contentStyle={{ backgroundColor: chartTooltipBg, border: `1px solid ${chartTooltipBorder}` }}
+                  labelStyle={{ color: chartAxis }}
                 />
                 <Line type="monotone" dataKey="tests" stroke="#3b82f6" strokeWidth={2} />
               </LineChart>
@@ -111,15 +119,15 @@ export default function Dashboard() {
 
           {/* Test Status Distribution */}
           <div className="card">
-            <h3 className="text-lg font-semibold text-white mb-4">Test Status</h3>
+            <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Test Status</h3>
             <ResponsiveContainer width="100%" height={250}>
               <BarChart data={metrics?.test_status || []}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
-                <XAxis dataKey="status" stroke="#94a3b8" />
-                <YAxis stroke="#94a3b8" />
+                <CartesianGrid strokeDasharray="3 3" stroke={chartGrid} />
+                <XAxis dataKey="status" stroke={chartAxis} />
+                <YAxis stroke={chartAxis} />
                 <Tooltip
-                  contentStyle={{ backgroundColor: '#1e293b', border: '1px solid #334155' }}
-                  labelStyle={{ color: '#94a3b8' }}
+                  contentStyle={{ backgroundColor: chartTooltipBg, border: `1px solid ${chartTooltipBorder}` }}
+                  labelStyle={{ color: chartAxis }}
                 />
                 <Bar dataKey="count" fill="#3b82f6" />
               </BarChart>
@@ -129,38 +137,38 @@ export default function Dashboard() {
 
         {/* Recent Repositories */}
         <div className="card">
-          <h3 className="text-lg font-semibold text-white mb-4">Connected Repositories</h3>
+          <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">Connected Repositories</h3>
           {repos && repos.length > 0 ? (
             <div className="space-y-3">
               {repos.slice(0, 5).map((repo) => (
                 <div
                   key={repo.id}
-                  className="flex items-center justify-between p-4 bg-slate-900 rounded-lg border border-slate-700 hover:border-slate-600 transition-colors"
+                  className="flex items-center justify-between p-4 bg-gray-50 dark:bg-slate-900 rounded-lg border border-gray-200 dark:border-slate-700 hover:border-gray-300 dark:hover:border-slate-600 transition-colors"
                 >
                   <div className="flex items-center space-x-3">
                     <GitBranch className="text-blue-500" size={20} />
                     <div>
-                      <p className="text-white font-medium">{repo.repo_name}</p>
-                      <p className="text-slate-400 text-sm">{repo.repo_url}</p>
+                      <p className="text-gray-900 dark:text-white font-medium">{repo.repo_name}</p>
+                      <p className="text-gray-500 dark:text-slate-400 text-sm">{repo.repo_url}</p>
                     </div>
                   </div>
                   <div className="flex items-center space-x-4">
                     <div className="text-right">
-                      <p className="text-slate-400 text-sm">Last updated</p>
-                      <p className="text-white text-sm">
+                      <p className="text-gray-500 dark:text-slate-400 text-sm">Last updated</p>
+                      <p className="text-gray-900 dark:text-white text-sm">
                         {new Date(repo.created_at).toLocaleDateString()}
                       </p>
                     </div>
-                    <button className="btn-secondary text-sm">View</button>
+                    <button className="btn-secondary text-sm" onClick={() => navigate(`/repo/${repo.id}`)}>View</button>
                   </div>
                 </div>
               ))}
             </div>
           ) : (
             <div className="text-center py-8">
-              <GitBranch className="mx-auto text-slate-600" size={48} />
-              <p className="text-slate-400 mt-4">No repositories connected yet</p>
-              <button className="btn-primary mt-4">Connect Repository</button>
+              <GitBranch className="mx-auto text-gray-400 dark:text-slate-600" size={48} />
+              <p className="text-gray-500 dark:text-slate-400 mt-4">No repositories connected yet</p>
+              <button className="btn-primary mt-4" onClick={() => navigate('/repositories')}>Connect Repository</button>
             </div>
           )}
         </div>
