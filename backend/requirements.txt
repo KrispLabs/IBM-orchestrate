@@ -1,33 +1,22 @@
-# Core Django
 django
-gunicorn
 djangorestframework
-
-# Database
-psycopg2-binary>=2.9.9
-
-# API & Auth
-PyGithub
-python-jose[cryptography]
-requests
-python-decouple
-djangorestframework-simplejwt
 django-cors-headers
-
-# Task Queue
+python-decouple
+psycopg2-binary
 celery
 redis
-
-# AI & Analysis (simplified)
-ibm-watsonx-ai
+ibm-watsonx-ai==1.1.2
+PyGithub
 astpretty
 networkx
-
-# Testing (simplified)
+python-jose
+requests
+factory-boy
 pytest
 pytest-django
-coverage
+pytest-playwright
 pytest-cov
-
-# Utilities
-python-dotenv
+coverage
+djangorestframework-simplejwt
+gunicorn
+whitenoise
